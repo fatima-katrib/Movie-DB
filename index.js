@@ -8,5 +8,8 @@ app.get("/test", (req, res) => {
 });
 app.get("/time", (req, res) => {
   let time = new Date();
-  res.send({ status: 200, message: `${time.getHours}: ${time.getMinutes}` });
+  res.send({
+    status: 200,
+    message: `${time.getHours()}: ${time.getMinutes()}`,
+  });
 });
