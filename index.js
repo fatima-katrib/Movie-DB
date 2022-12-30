@@ -69,13 +69,11 @@ app.get("/movies/read/id/:id", (req, res) => {
         status: 200,
         data: movies[id],
       })
-    : res
-        .status(404)
-        .send({
-          status: 404,
-          error: true,
-          message: `the movie ${id} does not exist`,
-        });
+    : res.status(404).send({
+        status: 404,
+        error: true,
+        message: `the movie ${id} does not exist`,
+      });
 });
 
 app.get("/movies/update", (req, res) => {
@@ -84,4 +82,19 @@ app.get("/movies/update", (req, res) => {
 
 app.get("/movies/delete", (req, res) => {
   res.send("delete");
+});
+
+app.get("/movies/add", (req, res) => {
+  const title = req.query.title,
+    year = req.query.year,
+    rating = req.query.rating ? req.query.rating : (req.query.rating = "4");
+  !title || !year || year.length < 4 || isNaN(year)
+    ? res.status(403).send({
+        status: 403,
+        error: true,
+        message:
+          "you cannot create a movie without providing a title and a year",
+      })
+    : movies.push({ title: title, year: year, rating: rating });
+  res.send({ status: 200, data: movies });
 });
