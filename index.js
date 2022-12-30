@@ -80,8 +80,18 @@ app.get("/movies/update", (req, res) => {
   res.send("update");
 });
 
-app.get("/movies/delete", (req, res) => {
-  res.send("delete");
+app.get("/movies/delete/:id", (req, res) => {
+  const id = req.params.id;
+  if (id && id <= movies.length) {
+    movies.splice(id - 1, 1);
+    res.send({ status: 200, data: movies });
+  } else {
+    res.status(404).send({
+      status: 404,
+      error: true,
+      message: `the movie ${id} does not exist`,
+    });
+  }
 });
 
 app.get("/movies/add", (req, res) => {
