@@ -62,6 +62,21 @@ app.get("/movies/read/by-title", (req, res) => {
     data: [...movies].sort((a, b) => a.title.localeCompare(b.title)),
   });
 });
+app.get("/movies/read/id/:id", (req, res) => {
+  const id = req.params.id;
+  id && id <= movies.length
+    ? res.send({
+        status: 200,
+        data: movies[id],
+      })
+    : res
+        .status(404)
+        .send({
+          status: 404,
+          error: true,
+          message: `the movie ${id} does not exist`,
+        });
+});
 
 app.get("/movies/update", (req, res) => {
   res.send("update");
