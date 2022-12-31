@@ -1,3 +1,4 @@
+const { query } = require("express");
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -76,8 +77,23 @@ app.get("/movies/read/id/:id", (req, res) => {
       });
 });
 
-app.get("/movies/update", (req, res) => {
-  res.send("update");
+app.get("/movies/update/:id", (req, res) => {
+  const id = req.params.id,
+    title = req.query.title,
+    year = req.query.year,
+    rating = req.query.rating;
+  if (id && id <= movies.length) {
+    title ? (movies[id - 1].title = title) : movies[id - 1].title;
+    year ? (movies[id - 1].year = title) : movies[id - 1].year;
+    rating ? (movies[id - 1].rating = title) : movies[id - 1].rating;
+    res.send({ status: 200, data: movies });
+  } else {
+    res.status(404).send({
+      status: 404,
+      error: true,
+      message: `the movie ${id} does not exist`,
+    });
+  }
 });
 
 app.get("/movies/delete/:id", (req, res) => {
