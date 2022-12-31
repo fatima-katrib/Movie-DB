@@ -41,7 +41,7 @@ app.get("/search", (req, res) => {
 });
 
 //movies route
-app.get("/movies/create", (req, res) => {
+app.post("/movies/create", (req, res) => {
   res.send("create");
 });
 
@@ -77,7 +77,7 @@ app.get("/movies/read/id/:id", (req, res) => {
       });
 });
 
-app.get("/movies/update/:id", (req, res) => {
+app.put("/movies/update/:id", (req, res) => {
   const id = req.params.id,
     title = req.query.title,
     year = req.query.year,
@@ -96,7 +96,7 @@ app.get("/movies/update/:id", (req, res) => {
   }
 });
 
-app.get("/movies/delete/:id", (req, res) => {
+app.delete("/movies/delete/:id", (req, res) => {
   const id = req.params.id;
   if (id && id <= movies.length) {
     movies.splice(id - 1, 1);
@@ -110,7 +110,7 @@ app.get("/movies/delete/:id", (req, res) => {
   }
 });
 
-app.get("/movies/add", (req, res) => {
+app.post("/movies/add", (req, res) => {
   const title = req.query.title,
     year = req.query.year,
     rating = req.query.rating ? req.query.rating : (req.query.rating = "4");
